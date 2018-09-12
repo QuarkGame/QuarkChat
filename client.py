@@ -1,18 +1,22 @@
 import socket
+while True:
 
-s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    x = input('Send Message: ')
 
-s.connect(("localhost", 3333))
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
-str_recv = s.recv(1024)
+    s.connect(("localhost", 3333))
 
-print(str(str_recv))
+    str_recv = s.recv(1024)
 
-str_send = "Hello, the world!"
+    print(str(str_recv))
 
-s.send(bytes(str_send, 'utf-8'))
+    str_send = "Hello, the world!"
 
-str_recv = s.recv(1024)
+    # s.send(bytes(str_send, 'utf-8'))
+    s.send(bytes(x, 'utf-8'))
 
-print(str(str_recv))
-s.close()
+    str_recv = s.recv(1024)
+
+    print(str(str_recv, 'utf-8'))
+    s.close()

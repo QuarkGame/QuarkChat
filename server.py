@@ -2,6 +2,7 @@ import socket
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
+
 s.bind(('localhost', 3333))
 
 s.listen(5)
@@ -14,7 +15,7 @@ while True:
     connect.sendto(bytes(str_return, 'utf-8'), addr)
 
     str_recv, temp = connect.recvfrom(1024)
-    print(str_recv)
+    print(str(str_recv, 'utf-8'))
 
     str_return = "I got your command, it is " + str(str_recv)
     connect.sendto(bytes(str_return, 'utf-8'), addr)
