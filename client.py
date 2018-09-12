@@ -1,39 +1,18 @@
-# https://www.geeksforgeeks.org/simple-chat-room-using-python/
 import socket
-import select
-import sys
 
-server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-if len(sys.argv) != 3:
-    print ("Correct usage: script, IP address, port number")
-    exit()
-IP_address = str(sys.argv[1])
-Port = int(sys.argv[2])
-server.connect((IP_address, Port))
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
-while True:
+s.connect(("localhost", 3333))
 
-    # maintains a list of possible input streams
-    sockets_list = [sys.stdin, server]
+str_recv = s.recv(1024)
 
-    """ There are two possible input situations. Either the
-    user wants to give  manual input to send to other people,
-    or the server is sending a message  to be printed on the
-    screen. Select returns from sockets_list, the stream that
-    is reader for input. So for example, if the server wants
-    to send a message, then the if condition will hold true
-    below.If the user wants to send a message, the else
-    condition will evaluate as true"""
-    read_sockets,write_socket, error_socket = select.select(sockets_list,[],[])
+print(str(str_recv))
 
-    for socks in read_sockets:
-        if socks == server:
-            message = socks.recv(2048)
-            print message
-        else:
-            message = sys.stdin.readline()
-            server.send(message)
-            sys.stdout.write("<You>")
-            sys.stdout.write(message)
-            sys.stdout.flush()
-server.close()
+str_send = "Hello, the world!"
+
+s.send(bytes(str_send, 'utf-8'))
+
+str_recv = s.recv(1024)
+
+print(str(str_recv))
+s.close()
